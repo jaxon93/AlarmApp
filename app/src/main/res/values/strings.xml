@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Simple Alarm Clock</string>
+    <string name="arg_alarm_obj">AlarmObject</string>
+    <string name="bundle_alarm_obj">BundleAlarmObject</string>
+    <string name="alarm_title">My Alarm</string>
+    <string name="dayNightTheme">DayNightTheme</string>
+    <string name="channel_name">Alarm Channel</string>
+    <string name="channel_description">Channel for Alarm Notifications</string>
+</resources>
