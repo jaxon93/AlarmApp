@@ -1,5 +1,6 @@
 package com.example.alarmapp.model;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -132,6 +133,7 @@ public class Alarm implements Serializable {
         this.vibrate = vibrate;
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     public void schedule(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 

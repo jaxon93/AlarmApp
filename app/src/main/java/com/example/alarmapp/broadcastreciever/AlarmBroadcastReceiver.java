@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.alarmapp.R;
@@ -21,7 +22,7 @@ import com.example.alarmapp.activities.MainActivity;
 import java.util.Calendar;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
-//    private static final int NOTIFICATION_ID = 1;
+    private static final int NOTIFICATION_ID = 1;
     Alarm alarm;
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,47 +37,21 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 alarm =(Alarm)bundle.getSerializable(context.getString(R.string.arg_alarm_obj));
             String toastText = String.format("Alarm Received");
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+            startAlarmService(context, alarm);
             if(alarm!=null) {
                 if (!alarm.isRecurring()) {
                     startAlarmService(context, alarm);
-//                    showNotification(context);
+                    Log.d("jaxon", "startAlarmService");
                 } else {
                     if (isAlarmToday(alarm)) {
                         startAlarmService(context, alarm);
-//                        showNotification(context);
+                        Log.d("jaxon", "startAlarmService");
+
                     }
                 }
             }
         }
     }
-
-//    private void showNotification(Context context) {
-//        NotificationManager notificationManager =
-//                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            NotificationChannel channel = notificationManager.getNotificationChannel(CHANNEL_ID);
-//            if (channel == null) {
-//                // Re-create the channel if it doesn't exist (e.g., after app reinstallation)
-//                MainActivity.createNotificationChannel();
-//            }
-//        }
-//
-//        Notification.Builder builder;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            builder = new Notification.Builder(context, CHANNEL_ID);
-//        } else {
-//            builder = new Notification.Builder(context);
-//        }
-//
-//        // Configure the notification
-//        builder.setContentTitle("Your Notification Title")
-//                .setContentText("Your Notification Text")
-//                .setAutoCancel(true);
-//
-//        // Show the notification
-//        notificationManager.notify(NOTIFICATION_ID, builder.build());
-//    }
 
     private boolean isAlarmToday(Alarm alarm1) {
         Calendar calendar = Calendar.getInstance();

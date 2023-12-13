@@ -110,22 +110,9 @@ public class RingActivity extends AppCompatActivity {
             }
         });
 
-        ringActivityViewBinding.activityRingSnooze.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snoozeAlarm();
-            }
-        });
-
-        animateClock();
     }
 
-    private void animateClock() {
-        ObjectAnimator rotateAnimation = ObjectAnimator.ofFloat(ringActivityViewBinding.activityRingClock, "rotation", 0f, 30f, 0f, -30f, 0f);
-        rotateAnimation.setRepeatCount(ValueAnimator.INFINITE);
-        rotateAnimation.setDuration(800);
-        rotateAnimation.start();
-    }
+
 
     @Override
     protected void onDestroy() {

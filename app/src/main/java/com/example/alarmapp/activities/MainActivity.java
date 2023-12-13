@@ -1,5 +1,7 @@
 package com.example.alarmapp.activities;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -17,12 +19,14 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.alarmapp.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final int YOUR_REQUEST_CODE = 1000;
-//    private static final String CHANNEL_ID = "alarm_channel";
+    private static final String CHANNEL_ID = "alarm_channel";
+    private ActivityResultLauncher<String[]> permissionLauncher;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor edit;
@@ -30,32 +34,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        createNotificationChannel();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         edit = sharedPreferences.edit();
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted, request it.
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, YOUR_REQUEST_CODE);
-        } else {
-            // Permission already granted, proceed with alarm setting.
-            // Call your code to set the exact alarm here.
-        }
+        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
+                permissions -> {
+                    if (permissions.values().stream().allMatch(Boolean::booleanValue)) {
+                    } else {
+                        Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
-
-//    public void createNotificationChannel() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = getString(R.string.channel_name);
-//            String description = getString(R.string.channel_description);
-//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-//            channel.setDescription(description);
-//
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
